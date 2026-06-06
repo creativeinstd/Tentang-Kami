@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tentang Kami - Creativein STD</title>
+    <title>Creativein STD - Digital Creative Market</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,12 +14,89 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+
+        /* =========================================
+           SALES NOTIFICATION POPUP (CLEAN WHITE)
+           ========================================= */
+        .sales-popup {
+            position: fixed;
+            bottom: 30px;
+            left: -400px; /* Tersembunyi di luar layar kiri */
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0,0,0,0.05);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: max-content;
+            max-width: 340px;
+            z-index: 1005; /* Di atas segalanya */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Animasi meluncur sangat smooth */
+        }
+        
+        .sales-popup.show {
+            left: 30px;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sp-icon {
+            font-size: 24px;
+            color: #22c55e; /* Warna Hijau Centang */
+            animation: pulse-green 2s infinite; /* Berdenyut pelan */
+        }
+
+        .sp-content p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #1f2937; /* Teks Hitam Lembut */
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .sp-content p strong {
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .sp-content span {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            display: block;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        @keyframes pulse-green {
+            0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0.4)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0)); }
+        }
+
+        /* Penyesuaian agar rapi di layar HP */
+        @media (max-width: 768px) {
+            .sales-popup {
+                max-width: 90%;
+                bottom: 20px;
+            }
+            /* Muncul agak ke tengah di HP agar tidak terpotong layar */
+            .sales-popup.show { 
+                left: 5%; 
+            }
+        }
+        
         /* Mengaktifkan scroll mulus & Kunci layar dari geser horizontal */
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
         body { 
             width: 100%;
             overflow-x: hidden;
             position: relative;
+            /* HAPUS -webkit-overflow-scrolling dari body agar tidak terjadi BUG STUCK saat pertama kali scroll di HP */
         }
         
         /* =========================================
@@ -30,10 +107,10 @@
             --bg-body-rgb: 0, 0, 0;
             
             --text-main: #ffffff;
-            --text-muted: #a1a1aa; 
+            --text-muted: #a1a1aa; /* Light Grey */
             
-            --primary-color: #ffffff; 
-            --primary-text: #000000;  
+            --primary-color: #ffffff; /* Pure White */
+            --primary-text: #000000;  /* Pure Black for text on white elements */
             
             /* Glassmorphism Settings */
             --glass-bg: rgba(255, 255, 255, 0.03);
@@ -43,80 +120,161 @@
         }
 
         /* =========================================
-           TOP PROMO BANNER & NOTIF POPUP
+           TOP PROMO BANNER (CLEAN WHITE)
            ========================================= */
         .top-promo {
-            background: rgba(255, 255, 255, 0.95); 
+            background: rgba(255, 255, 255, 0.95); /* Warna Putih Bersih semi-transparan */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             padding: 12px 0;
-            position: fixed; 
-            top: 0; left: 0; width: 100%;
-            z-index: 1001; 
+            position: fixed; /* Menempel di paling atas */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001; /* Harus lebih tinggi dari Navbar */
             animation: promoPulse 3s infinite alternate ease-in-out;
         }
+
+        /* Animasi cahaya berdenyut putih lembut */
         @keyframes promoPulse {
             0% { background: rgba(255, 255, 255, 0.90); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
             100% { background: rgba(255, 255, 255, 1); box-shadow: 0 5px 25px rgba(255,255,255,0.15); }
         }
-        .promo-wrapper { display: flex; justify-content: center; align-items: center; gap: 25px; flex-wrap: wrap; }
-        .promo-info { display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
-        .p-sub { font-size: 0.8rem; color: #666; letter-spacing: 1px; font-weight: 600; }
-        .p-title { font-size: 1.2rem; font-weight: 800; color: #000; letter-spacing: 0.5px; }
-        .promo-buttons { display: flex; gap: 10px; align-items: center; }
-        .p-slot {
-            border: 1px solid rgba(0, 0, 0, 0.2); color: #d9f99d; padding: 6px 16px; border-radius: 8px;
-            font-size: 0.85rem; font-weight: 700; background: #111; animation: bounceIn 2s infinite; 
-        }
-        @keyframes bounceIn { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .p-btn {
-            background: #d9f99d; color: #000; padding: 7px 18px; border-radius: 8px;
-            font-size: 0.85rem; font-weight: 800; border: 1px solid #d9f99d; transition: 0.3s;
-            position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(163, 230, 53, 0.3); 
-        }
-        .p-btn::after {
-            content: ''; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%;
-            background: rgba(255,255,255,0.6); transform: rotate(30deg); transition: 0.5s; animation: shine 3s infinite;
-        }
-        @keyframes shine { 0% { left: -60%; } 100% { left: 150%; } }
-        .p-btn:hover { background: #111; color: #fff; border-color: #111; transform: scale(1.05); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
 
-        .sales-popup {
-            position: fixed; bottom: 30px; left: -400px; background: #ffffff; border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0,0,0,0.05); padding: 16px 20px; display: flex; align-items: center; gap: 15px; width: max-content; max-width: 340px; z-index: 1005; opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+        .promo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
         }
-        .sales-popup.show { left: 30px; opacity: 1; visibility: visible; }
-        .sp-icon { font-size: 24px; color: #22c55e; animation: pulse-green 2s infinite; }
-        .sp-content p { margin: 0; font-size: 0.85rem; color: #1f2937; line-height: 1.4; font-weight: 400; }
-        .sp-content p strong { color: #000000; font-weight: 700; }
-        .sp-content span { font-size: 0.75rem; color: #9ca3af; display: block; margin-top: 4px; font-weight: 500; }
-        @keyframes pulse-green {
-            0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0.4)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0)); }
+
+        .promo-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.2;
+        }
+
+        .p-sub {
+            font-size: 0.8rem;
+            color: #666; /* Abu-abu gelap agar terbaca di latar putih */
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .p-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #000; /* Hitam pekat agar kontras dengan latar putih */
+            letter-spacing: 0.5px;
+        }
+
+        .promo-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .p-slot {
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Border hitam transparan */
+            color: #d9f99d; /* Teks tetap lime green sesuai request sebelumnya */
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: #111; /* Kotak sisa slot warna hitam agar teks lime green menyala */
+            animation: bounceIn 2s infinite; 
+        }
+        
+        @keyframes bounceIn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .p-btn {
+            background: #d9f99d; /* Tombol hijau lime */
+            color: #000;
+            padding: 7px 18px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            border: 1px solid #d9f99d;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(163, 230, 53, 0.3); /* Bayangan hijau lembut */
+        }
+
+        /* Animasi kilap (shine) yang melintas di tombol Ambil Promo */
+        .p-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(255,255,255,0.6);
+            transform: rotate(30deg);
+            transition: 0.5s;
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { left: -60%; }
+            100% { left: 150%; }
+        }
+
+        .p-btn:hover {
+            background: #111;
+            color: #fff;
+            border-color: #111;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Penyesuaian Promo di HP */
+        @media (max-width: 768px) {
+            .promo-wrapper { gap: 8px; text-align: center; }
+            .p-title { font-size: 1.1rem; }
+            .promo-buttons { justify-content: center; width: 100%; }
+            .top-promo { padding: 10px 0; }
         }
 
         /* =========================================
-           BASE STYLES & LAYOUT
+           BASE STYLES
            ========================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         
         body { 
             background-color: var(--bg-body);
-            background-image: radial-gradient(circle at 50% -20%, rgba(255,255,255,0.08) 0%, transparent 60%), radial-gradient(circle at -20% 80%, rgba(255,255,255,0.04) 0%, transparent 50%), radial-gradient(circle at 120% 50%, rgba(255,255,255,0.03) 0%, transparent 50%);
-            background-attachment: fixed; color: var(--text-main); overflow-x: hidden; 
+            /* Ambient Light Effect di background hitam pekat */
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                radial-gradient(circle at -20% 80%, rgba(255,255,255,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 120% 50%, rgba(255,255,255,0.03) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main); 
+            overflow-x: hidden; 
         }
+
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         img { max-width: 100%; height: auto; border-radius: 16px; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .section-padding { padding: 100px 0; }
         
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
+        .section-header h2 { font-size: clamp(2rem, 3vw, 2.5rem); margin-bottom: 16px; font-weight: 800; letter-spacing: -0.5px;}
+        .section-header p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; font-weight: 300;}
+
+        /* Buttons & Badges - Monokrom */
         .badge {
             background: rgba(255, 255, 255, 0.05); color: var(--primary-color); border: 1px solid var(--glass-border);
-            padding: 8px 16px; border-radius: 30px; font-size: 0.875rem; font-weight: 500; display: inline-block; margin-bottom: 24px; backdrop-filter: var(--glass-blur); letter-spacing: 1px; text-transform: uppercase;
+            padding: 8px 16px; border-radius: 30px; font-size: 0.875rem; font-weight: 500; display: inline-block; margin-bottom: 24px; backdrop-filter: var(--glass-blur);
+            letter-spacing: 1px; text-transform: uppercase;
         }
         .btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -127,185 +285,250 @@
         .btn-outline { background-color: transparent; border: 1px solid rgba(255,255,255,0.3); color: var(--text-main); }
         .btn-outline:hover { background-color: rgba(255, 255, 255, 0.1); border-color: #fff; transform: translateY(-3px);}
 
-        .reveal { opacity: 0; will-change: transform, opacity; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* =========================================
+           SCROLL REVEAL ANIMATIONS
+           ========================================= */
+        .reveal {
+            opacity: 0;
+            will-change: transform, opacity;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         .reveal.active { opacity: 1; transform: translate(0, 0) scale(1); }
         .fade-up { transform: translateY(50px); }
-        .fade-right { transform: translateX(50px); }
+        .fade-down { transform: translateY(-50px); }
         .fade-left { transform: translateX(-50px); }
+        .fade-right { transform: translateX(50px); }
+        .scale-in { transform: scale(0.85); }
+        
         .d-1 { transition-delay: 100ms; }
         .d-2 { transition-delay: 200ms; }
+        .d-3 { transition-delay: 300ms; }
+        .d-4 { transition-delay: 400ms; }
+        .d-5 { transition-delay: 500ms; }
+        .d-6 { transition-delay: 600ms; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes float-delay { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* =========================================
-           NAVBAR STICKY
+           NAVBAR STICKY - GLASS EFFECT
            ========================================= */
-        nav { padding: 24px 0; position: fixed; width: 100%; top: 60px; z-index: 1000; transition: all 0.4s ease; }
-        nav.scrolled { padding: 15px 0; top: 0; background: rgba(var(--bg-body-rgb), 0.5); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--glass-border); }
+        nav { 
+            padding: 24px 0; 
+            position: fixed;
+            width: 100%;
+            /* Top diatur agar memberi ruang untuk banner promo di atasnya (kira-kira tinggi banner 60px) */
+            top: 60px; 
+            z-index: 1000; 
+            transition: all 0.4s ease;
+        }
+        
+        /* Saat di scroll, navbar akan naik mengisi ruang atas menimpa banner */
+        nav.scrolled {
+            padding: 15px 0;
+            top: 0; /* Navbar kembali ke puncak saat di scroll */
+            background: rgba(var(--bg-body-rgb), 0.5);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        /* Menyesuaikan jarak di HP saat promo tampil */
+        @media (max-width: 768px) {
+            nav { top: 75px; } /* Tinggi banner di HP memakan 2 baris (sekitar 75px) */
+        }
+
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* LOGO STYLES */
         .logo { display: flex; align-items: center; }
-        .logo-img { height: 40px; width: auto; max-width: 250px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .logo-img { 
+            height: 40px; /* Ini ukuran tinggi ideal untuk navbar */
+            width: auto; 
+            max-width: 250px; 
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+        }
+        .logo span { background: var(--primary-color); color: var(--primary-text); padding: 2px 8px; border-radius: 6px; font-size: 1.1rem;}
+        
         .nav-links { display: flex; gap: 32px; }
         .nav-links a { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); transition: 0.3s; position: relative;}
         .nav-links a:hover, .nav-links a.active { color: var(--text-main); }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0;
+            background-color: var(--primary-color); transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        
         .nav-actions { display: flex; align-items: center; gap: 16px; }
         .menu-btn { display: none; font-size: 1.5rem; background: none; border: none; color: var(--text-main); cursor: pointer; }
 
+        /* =========================================
+           MEGA MENU (FULL LEBAR DESKTOP)
+           ========================================= */
         .dropdown { position: static; } 
-        .mega-menu { position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10, 10, 10, 0.95); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 40px 0; box-shadow: 0 30px 50px rgba(0,0,0,0.7); opacity: 0; visibility: hidden; transform: translateY(15px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 99; }
-        .dropdown:hover .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .mega-content { display: flex; gap: 50px; align-items: center; }
-        .mega-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 45%; }
-        .mega-images img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); filter: grayscale(80%); transition: 0.4s ease; }
-        .mega-images img:hover { transform: translateY(-5px); filter: grayscale(0%); border-color: var(--primary-color); }
-        .mega-links { width: 55%; column-count: 3; column-gap: 20px; }
-        .mega-links a { display: block; color: var(--text-muted) !important; font-size: 0.95rem; padding: 8px 12px; border-radius: 8px; transition: 0.3s; margin-bottom: 8px; break-inside: avoid; }
-        .mega-links a:hover { color: var(--text-main) !important; background: rgba(255,255,255,0.05); transform: translateX(5px); }
+        
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%; 
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 40px 0;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.7);
+            
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 99;
+        }
+        
+        .dropdown:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mega-content {
+            display: flex;
+            gap: 50px;
+            align-items: center; 
+        }
+
+        .mega-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px;
+            width: 45%; 
+        }
+        .mega-images img {
+            width: 100%;
+            height: 220px; 
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.4s ease;
+        }
+        .mega-images img:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .mega-links {
+            width: 55%; 
+            column-count: 3; 
+            column-gap: 20px;
+        }
+
+        .mega-links a {
+            display: block;
+            color: var(--text-muted) !important;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+            margin-bottom: 8px;
+            break-inside: avoid; 
+        }
+        .mega-links a::after { display: none !important; } 
+        
+        .mega-links a:hover {
+            color: var(--text-main) !important;
+            background: rgba(255,255,255,0.05);
+            transform: translateX(5px);
+        }
 
         /* =========================================
-           ABOUT US LAYOUT (Sesuai Referensi Gambar)
+           GLOBAL GLASS CARDS (APPLIED EVERYWHERE)
            ========================================= */
-        .about-section {
-            padding: 160px 0 100px; /* Padding besar karena hero dihapus */
-            position: relative;
-        }
-        
-        .about-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .about-header h1 {
-            font-size: clamp(3rem, 5vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            color: var(--text-main);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .about-img-wrap {
-            position: relative;
-        }
-        
-        .about-img-wrap img {
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            filter: grayscale(80%);
-            transition: 0.5s ease;
-        }
-        .about-img-wrap:hover img {
-            filter: grayscale(0%);
-        }
-
-        /* Glass Cards for About */
-        .glass-card {
+        .glass-card, .f-card, .port-card, .price-card, .contact-form, .socials a {
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
             box-shadow: var(--card-shadow);
-            border-radius: 20px;
-            padding: 25px 35px;
-            text-align: center;
-            position: absolute;
-            z-index: 2;
-        }
-        
-        .float-card-1 {
-            top: 5%;
-            left: -15%;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .float-card-2 {
-            bottom: 5%;
-            right: -15%;
-            animation: float-delay 7s ease-in-out infinite;
         }
 
-        .glass-card h3 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 5px;
-        }
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        /* Padding atas ditambah agar tidak tertutup Navbar yang turun */   
+        .hero { padding: 200px 0 120px; text-align: center; position: relative; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px; word-wrap: break-word; hyphens: auto; }
+        .hero p { font-size: 1.1rem; color: var(--text-muted); font-weight: 300; margin-bottom: 40px; line-height: 1.6; max-width: 650px; margin-left: auto; margin-right: auto; }
         
-        .glass-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        /* About Text Content */
-        .about-text h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: #d9f99d; /* Warna Lime Green Terang dari promo */
-        }
+        .ui-preview { display: flex; justify-content: center; align-items: center; gap: 24px; margin-top: 80px; position: relative; z-index: 10; }
+        .glass-card { border-radius: 24px; padding: 24px; text-align: left; }
         
-        .about-text h4 {
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 25px;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
+        .anim-float { animation: float 6s ease-in-out infinite; }
+        .anim-float-delay { animation: float-delay 7s ease-in-out infinite; }
 
-        .about-text p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
+        .card-stat { width: 220px; }
+        .card-stat h4 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
+        .card-stat h2 { font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;}
+        
+        .card-main { width: 380px; transform: translateY(-20px); }
+        .card-main img { width: 100%; height: 180px; object-fit: cover; margin-top: 15px; border-radius: 12px; transition: 0.5s; }
+        .card-main:hover img { transform: scale(1.05); }
+        
+        .card-rating { width: 220px; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); }
+        .card-rating i { color: #ffffff; font-size: 1.2rem; }
 
-        /* Progress Bars */
-        .skills-container {
-            margin-top: 40px;
-        }
-        .skill-item {
-            margin-bottom: 20px;
-        }
-        .skill-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-        .skill-label span:last-child {
-            color: #d9f99d;
-            font-weight: 700;
-        }
-        .skill-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .skill-fill {
-            height: 100%;
-            background: #d9f99d; /* Lime green */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(190, 242, 100, 0.5);
-        }
+        /* =========================================
+           FEATURES 
+           ========================================= */
+        .features { background: rgba(255,255,255,0.01); border-top: 1px solid var(--glass-border); border-top-left-radius: 50px; border-top-right-radius: 50px; position: relative; z-index: 20; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        
+        .f-card { padding: 32px; border-radius: 24px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); height: 100%;}
+        .f-card:hover { transform: translateY(-10px) scale(1.02); border-color: rgba(255,255,255,0.3); box-shadow: 0 20px 40px rgba(255, 255, 255, 0.05);}
+        
+        .f-card.highlight { background-color: var(--primary-color); color: var(--primary-text); box-shadow: 0 0 50px rgba(255,255,255,0.15); border: none;}
+        .f-card.highlight p { color: #444; font-weight: 500;}
+        .f-card.highlight .icon-box { background: rgba(0,0,0,0.05); color: var(--primary-text); border-color: rgba(0,0,0,0.1);}
+        
+        .icon-box { width: 50px; height: 50px; border-radius: 14px; background: rgba(255,255,255,0.05); color: var(--primary-color); display: flex; justify-content: center; align-items: center; font-size: 1.3rem; margin-bottom: 24px; transition: 0.3s; border: 1px solid var(--glass-border);}
+        .f-card:hover .icon-box { transform: rotate(10deg); background: rgba(255,255,255,0.1); }
+        .f-card h3 { font-size: 1.25rem; margin-bottom: 12px; }
+        .f-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; font-weight: 300;}
+
+        /* =========================================
+           PORTFOLIO & PRICING
+           ========================================= */
+        .bg-alt { background: rgba(255,255,255,0.015); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+        
+        .port-card { text-align: center; padding: 16px; border-radius: 24px; overflow: hidden; height: 100%;}
+        .port-card img { aspect-ratio: 1/1; margin-bottom: 16px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .port-card:hover img { transform: scale(1.08) translateY(-5px); }
+        .port-card h4 { font-size: 1.1rem; margin-bottom: 5px; font-weight: 600;}
+        .port-card p { color: var(--text-muted); font-size: 0.9rem;}
+
+        .price-card { border-radius: 24px; padding: 40px 30px; position: relative; transition: 0.4s; height: 100%;}
+        .price-card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-10px);}
+        .price-card.popular { border: 1px solid rgba(255,255,255,0.6); transform: scale(1.05); background: rgba(255,255,255,0.08);}
+        .price-card.popular:hover { transform: scale(1.05) translateY(-10px); }
+        @media(max-width: 1024px) { .price-card.popular { transform: scale(1); } .price-card.popular:hover{transform: translateY(-10px);} }
+        
+        .price-tag { position: absolute; top: -15px; right: 30px; background: var(--primary-color); color: var(--primary-text); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);}
+        .price-card h3 { font-size: 1.5rem; margin-bottom: 10px; font-weight: 700;}
+        .price-card .amount { font-size: 2.5rem; font-weight: 800; margin: 20px 0; color: var(--text-main);}
+        .price-card .amount span { font-size: 1rem; color: var(--text-muted); }
+        .price-list li { display: flex; gap: 12px; margin-bottom: 16px; font-size: 0.95rem; color: var(--text-muted); font-weight: 300;}
+        .price-list i { color: var(--text-main); margin-top: 4px; font-size: 0.85rem;}
 
         /* =========================================
            CONTACT & FOOTER
            ========================================= */
-        .bg-alt { background: rgba(255,255,255,0.015); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .contact-form { padding: 40px; border-radius: 30px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border);}
+        .contact-form { padding: 40px; border-radius: 30px;}
         .form-group { margin-bottom: 24px; }
         .form-group input, .form-group textarea { width: 100%; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--text-main); font-size: 1rem; outline: none; transition: 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { border-color: #fff; background: rgba(255,255,255,0.05); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);}
+        .form-group input:focus { border-color: #fff; background: rgba(255,255,255,0.05); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);}
         
         footer { padding: 80px 0 20px; background: transparent; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
@@ -313,52 +536,162 @@
         .footer-col ul li { margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem; transition: 0.3s; font-weight: 300;}
         .footer-col ul li:hover { color: #fff; transform: translateX(5px);}
         .socials { display: flex; gap: 15px; margin-top: 20px; }
-        .socials a { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: 0.3s; background: var(--glass-bg); border: 1px solid var(--glass-border);}
+        .socials a { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: 0.3s;}
         .socials a:hover { background: var(--primary-color); color: var(--primary-text); transform: translateY(-5px) rotate(8deg);}
 
         /* =========================================
-           RESPONSIVE MOBILE
+           RESPONSIVE & MOBILE SLIDER MAGIC
            ========================================= */
         @media (max-width: 992px) {
-            .contact-grid, .footer-grid, .about-grid { grid-template-columns: 1fr; }
-            .float-card-1 { left: 0; }
-            .float-card-2 { right: 0; }
+            .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+            .ui-preview { flex-direction: column; transform: scale(0.9); }
+            .card-main { transform: translateY(0); margin: 20px 0; }
         }
         
         @media (max-width: 768px) {
-            nav { top: 75px; } 
-            .nav-links { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); width: 90%; background: rgba(10,10,10,0.98); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); padding: 30px 20px; border-radius: 16px; flex-direction: column; border: 1px solid var(--glass-border); display: none; text-align: center; box-shadow: var(--card-shadow); max-height: 80vh; overflow-y: auto; }
+            .nav-links { 
+                position: absolute; 
+                top: 70px; 
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%; 
+                background: rgba(10,10,10,0.98); 
+                backdrop-filter: var(--glass-blur); 
+                -webkit-backdrop-filter: var(--glass-blur);
+                padding: 30px 20px; 
+                border-radius: 16px; 
+                flex-direction: column; 
+                border: 1px solid var(--glass-border); 
+                display: none; 
+                text-align: center; 
+                box-shadow: var(--card-shadow);
+                max-height: 80vh; 
+                overflow-y: auto; 
+            }
             .nav-links.active { display: flex; }
             .menu-btn { display: block; }
             .nav-actions .btn { display: none; }
             
+            .hero { padding: 200px 0 80px; }
+            .ui-preview { margin-top: 40px; width: 100%; transform: scale(1); }
+            .glass-card, .card-main { width: 100%; max-width: 380px; }
+            
+            .features { border-top-left-radius: 30px; border-top-right-radius: 30px; }
+            .price-card { padding: 30px 20px; }
+
+            /* Fix Mega Menu untuk HP (Mobile) */
             .dropdown { position: relative; width: 100%; } 
-            .mega-menu { position: static; width: 100%; display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.05); margin-top: 15px; padding: 10px; border-radius: 12px; opacity: 1; visibility: visible; transform: none; z-index: 1; }
+            
+            .mega-menu {
+                position: static;
+                width: 100%;
+                display: none; 
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255,255,255,0.05);
+                box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+                margin-top: 15px;
+                padding: 10px;
+                border-radius: 12px;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                z-index: 1;
+            }
             .dropdown:hover .mega-menu { display: block; }
-            .mega-content { flex-direction: column; gap: 0; padding: 0;}
+            .mega-content { flex-direction: column; gap: 0; align-items: stretch; padding: 0;}
             .mega-images { display: none; } 
             .mega-links { width: 100%; column-count: 1; }
-            .mega-links a { padding: 12px 10px; margin-bottom: 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
-            
-            .sales-popup { max-width: 90%; bottom: 20px; }
-            .sales-popup.show { left: 5%; }
-            .top-promo { padding: 10px 0; }
-            .promo-wrapper { gap: 8px; text-align: center; }
-            .p-title { font-size: 1.1rem; }
-            .promo-buttons { justify-content: center; width: 100%; }
+            .mega-links a { 
+                padding: 12px 10px; 
+                transform: none !important; 
+                margin-bottom: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.02);
+            }
+            .mega-links a:last-child { border-bottom: none; } 
 
-            /* Fix Mobile Layout About Us */
-            .about-section { padding: 140px 0 60px; }
-            .about-grid { gap: 40px; }
-            .float-card-1 { top: -20px; left: -10px; padding: 15px 20px; }
-            .float-card-2 { bottom: -20px; right: -10px; padding: 15px 20px; }
-            .glass-card h3 { font-size: 1.8rem; }
-            .glass-card p { font-size: 0.8rem; }
+            /* CSS Scroll Snap Slider untuk mobile */
+            .grid-3 { 
+                display: flex; 
+                flex-wrap: nowrap; 
+                overflow-x: auto; 
+                scroll-snap-type: x mandatory; 
+                scroll-padding-left: 24px; 
+                margin: 0 -24px; 
+                padding: 30px 24px 40px 24px; 
+                gap: 16px; 
+                -webkit-overflow-scrolling: touch; 
+                scrollbar-width: none; 
+            }
+            .grid-3::-webkit-scrollbar { display: none; }
+            .grid-3 > div { flex: 0 0 85%; scroll-snap-align: start; }
+            .f-card:hover, .price-card:hover, .price-card.popular:hover { transform: translateY(0) scale(1); }
         }
 
+        /* =========================================
+           PENGUNCI LAYAR HP (MENCEGAH GOYANG KIRI KANAN)
+           ========================================= */
         @media (max-width: 768px) {
-            html, body { max-width: 100vw !important; width: 100% !important; overflow-x: hidden !important; }
-            section, footer { max-width: 100vw !important; overflow-x: hidden !important; }
+            html, body {
+                max-width: 100vw !important;
+                width: 100% !important;
+                overflow-x: hidden !important;
+            }
+            .hero, section, footer {
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+            }
+        }
+
+      /* =========================================
+           RUNNING TEXT (MARQUEE) - GLASS EFFECT
+           ========================================= */
+        .marquee-glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            white-space: nowrap;
+            z-index: 10;
+            margin-bottom: 20px; /* Agar menempel sempurna dengan section di bawahnya */
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: scroll-text 30s linear infinite; /* 30s adalah kecepatan, semakin kecil semakin cepat */
+        }
+
+        .marquee-content span {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Titik pemisah antar kata */
+        .marquee-content span::after {
+            content: '•';
+            margin-left: 40px;
+            color: var(--primary-color);
+        }
+
+        /* Animasi bergeser mulus ke kiri terus menerus */
+        @keyframes scroll-text {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* Penyesuaian di layar HP */
+        @media (max-width: 768px) {
+            .marquee-glass { padding: 12px 0; }
+            .marquee-content span { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -366,9 +699,11 @@
 
     <!-- NOTIFIKASI PEMBELIAN (POPUP KIRI BAWAH) -->
     <div id="sales-popup" class="sales-popup">
-        <div class="sp-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="sp-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
         <div class="sp-content">
-            <p id="sp-text"><strong>Adam</strong> baru saja order <strong>Paket Kontrak Desainer</strong></p>
+            <p id="sp-text"><strong>Adam</strong> baru saja order <strong>Paket Kontrak Desainer 1 Bulan</strong></p>
             <span id="sp-time">10 menit yang lalu</span>
         </div>
     </div>
@@ -382,7 +717,7 @@
             </div>
             <div class="promo-buttons">
                 <div class="p-slot">Sisa 3 slot</div>
-                <a href="#kontak" class="p-btn">Ambil Promo</a>
+                <a href="#paket" class="p-btn">Ambil Promo</a>
             </div>
         </div>
     </div>
@@ -394,8 +729,8 @@
                 <img src="https://github.com/creativeinstd/Images/raw/main/Logo.png" class="logo-img" alt="Creativein">
             </div>
             <ul class="nav-links" id="navLinks">
-                <li><a href="https://creativeinstd.github.io/Home/">Beranda</a></li>
-                <li><a href="https://creativeinstd.github.io/Tentang-Kami/" class="active">Tentang Kami</a></li>
+                <li><a href="https://creativeinstd.github.io/Home/#" class="active">Beranda</a></li>
+                <li><a href="https://creativeinstd.github.io/Tentang-Kami/">Tentang Kami</a></li>
                 
                 <!-- MEGA MENU LAYANAN -->
                 <li class="dropdown">
@@ -406,7 +741,7 @@
                             <div class="mega-images">
                                 <img src="https://github.com/creativeinstd/Images/raw/main/navbar1.png" alt="Sosmed">
                                 <img src="https://github.com/creativeinstd/Images/raw/main/navbar2.jpg" alt="Desain">
-                                <img src="https://github.com/creativeinstd/Images/raw/main/navbar3.jpg" alt="Logo">
+                                <img src="https://github.com/creativeinstd/Images/raw/main/navbar3" alt="Logo">
                             </div>
                             <!-- BAGIAN KANAN: MENU MAKS 5 BARIS -->
                             <div class="mega-links">
@@ -602,6 +937,7 @@
 
         // 2. Sticky Navbar Effect on Scroll
         const navbar = document.getElementById('navbar');
+        // Script menyesuaikan posisi top agar tidak tabrakan dengan banner saat di scroll
         window.addEventListener('scroll', () => {
             if (window.scrollY > 10) {
                 navbar.classList.add('scrolled');
@@ -635,12 +971,19 @@
     <script>
         // Fungsi Kirim ke WhatsApp
         function kirimKeWhatsapp(event) {
+            // Mencegah halaman reload saat tombol diklik
             event.preventDefault();
+
+            // Mengambil nilai dari form
             const nama = document.getElementById('waNama').value;
             const proyek = document.getElementById('waProyek').value;
             const brief = document.getElementById('waBrief').value;
+
+            // Nomor WA tujuan (Pastikan pakai format 62)
             const nomorWA = "6282341380342";
 
+            // Menyusun format pesan dengan spasi (enter) ke bawah
+            // \n berfungsi sebagai Enter / baris baru
             let pesan = `Halo Creativein.std! 👋\n`;
             pesan += `Saya ingin meminta penawaran untuk project, berikut detailnya:\n\n`;
             pesan += `*Nama:* ${nama}\n`;
@@ -648,8 +991,13 @@
             pesan += `*Brief/Rencana:* \n${brief || '-'}\n\n`;
             pesan += `Mohon info harga dan prosedurnya ya. Terima kasih!`;
 
+            // Mengubah format teks menjadi format URL yang dipahami WhatsApp
             const pesanEncode = encodeURIComponent(pesan);
+
+            // Membuat link akhir
             const linkWhatsapp = `https://wa.me/${nomorWA}?text=${pesanEncode}`;
+
+            // Membuka WhatsApp di tab baru
             window.open(linkWhatsapp, '_blank');
         }
     </script>
@@ -674,18 +1022,30 @@
         const waktuNotif = document.getElementById('sp-time');
 
         function munculkanNotif() {
+            // Ambil data sesuai urutan
             const data = dataPembelian[indexNotif];
+            
+            // Ubah teks di HTML
             teksNotif.innerHTML = `<strong>${data.name}</strong> baru saja order <strong>${data.order}</strong>`;
             waktuNotif.innerText = data.time;
+
+            // Munculkan kotak (Slide In)
             kotakNotif.classList.add('show');
 
+            // Tahan selama 5 detik, lalu sembunyikan (Slide Out)
             setTimeout(() => {
                 kotakNotif.classList.remove('show');
+                
+                // Pindah ke nama berikutnya (jika sudah mentok ke-7, kembali ke 0)
                 indexNotif = (indexNotif + 1) % dataPembelian.length;
+                
+                // Tunggu 6 detik dalam keadaan kosong, lalu panggil fungsi ini lagi (Looping)
                 setTimeout(munculkanNotif, 6000);
-            }, 5000); 
+
+            }, 5000); // 5000ms = Notif tampil selama 5 detik
         }
 
+        // Jalankan notifikasi pertama kali setelah pengunjung berada di web selama 3 detik
         setTimeout(munculkanNotif, 3000);
     </script>
 </body>
